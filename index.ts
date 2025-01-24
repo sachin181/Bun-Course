@@ -19,10 +19,23 @@ const server = Bun.serve({
             return new Response("Contact Page!");
         }
 
-        return new Response("404!");
-        
-        
-    }
+        if (url.pathname === "/feed"){
+            throw new Error("Not implemented!");
+        }
+
+        if (url.pathname === "/greet"){
+            return new Response(Bun.file("./greet.txt"));
+        }
+
+        return new Response("404!");  
+    },
+    error(error) {
+        return new Response(`<pre>${error.stack}</pre>`, {
+            headers: {
+                "Content-Type": "text/html"
+            }
+        });
+    },
 })
 
 console.log(`Listening on http://localhost:${server.port}`);
